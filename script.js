@@ -45,22 +45,39 @@ function updateTask(key, taskText, taskCategory, taskCompleted) {
     setTasks(tasks);
 }
 
+function completeTask(key) {
+    let tasks = getTasks();
+    let task = getTask(key);
+    if (task.completed) {
+        task.completed = false;
+    } else {
+        task.completed = true;
+    }
+    tasks[key] = task;
+    setTasks(tasks);
+}
+
 function addTaskElement(key, task) {
     let li = document.createElement('li');
     li.classList.add('task');
     li.classList.add(task.category);
     li.setAttribute('data-key', key);
+
     let p = document.createElement('p');
     p.classList.add('taskText');
     p.innerHTML = task.text;
+
     let div = document.createElement('div');
     div.classList.add('taskButtons');
+
     let deleteBtn = document.createElement('button');
     deleteBtn.classList.add('deleteTaskBtn');
     deleteBtn.innerHTML = 'Supprimer';
+
     let updateBtn = document.createElement('button');
     updateBtn.classList.add('updateTaskBtn');
     updateBtn.innerHTML = 'Modifier';
+
     let completeBtn = document.createElement('button');
     completeBtn.classList.add('completeTaskBtn');
     completeBtn.innerHTML = 'Terminer';
@@ -72,7 +89,42 @@ function addTaskElement(key, task) {
     li.appendChild(div);
 
     tasksList.appendChild(li);
+
+    completeBtn.addEventListener('click', function(event) {
+        let li = completeBtn.parentElement.parentElement;
+        let key = li.getAttribute('data-key');
+
+        completeTask(key);
+
+        let task = getTask(key);
+
+        if (task.completed) {
+            li.classList.remove('taskCompleted');
+        } else {
+            li.classList.add('taskCompleted');
+        }
+
+    });
+
+    deleteBtn.addEventListener('click', function(event) {
+        let li = deleteBtn.parentElement.parentElement;
+        let key = li.getAttribute('data-key');
+        deleteTask(key);
+        tasksList.removeChild(li);
+    });
+
+    updateBtn.addEventListener('click', function(event) {
+        let li = updateBtn.parentElement.parentElement;
+        let key = li.getAttribute('data-key');
+        let task = getTask(key);
+        let taskText = updateBtn.parentElement.previousElementSibling;
+        let text = prompt('Texte de la tache', taskText.innerHTML);
+        updateTask(key, text, task.category, task.completed);
+        taskText.innerHTML = text;
+    });
 }
+
+
 
 addTaskForm.addEventListener('submit', function(event) {
     event.preventDefault();
@@ -114,6 +166,8 @@ filters.childNodes.forEach(function(item) {
         })
     }
 });
+
+
 
 localStorage.clear();
 /*let key1 = addTask('hello', 'css', true);
