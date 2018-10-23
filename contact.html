@@ -1,0 +1,55 @@
+<!DOCTYPE html> 
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<title>To Do</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1, user-scalable=no,shrink-to-fit=no, viewport-fit=cover">
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<nav class="navigation">
+		<label class="menuBtn" for="showMenu">
+			<img src="imgs/menu.svg" alt="menu" class="menuBtnImg">
+		</label>
+		<input type="checkbox" id="showMenu">
+		<ul class="menu">
+			<li><a href="index.html" class="menulink">Accueil</a></li>
+			<li><a href="contact.html" class="menulink">Contact</a></li>
+		</ul>
+	</nav>
+	<header class="header">
+		<h1 class="titre">Contact</h1>
+	</header>
+	<div class="content">
+		<main class="main">
+			<form method="post" action="contact.php" class="contactForm">
+				<h2>Contactez-nous</h2>
+
+				<label for="contact_nom" class="label">Nom : </label>
+				<input type="text" id="contact_nom" placeholder="Votre nom" class="textInput">
+				<br>
+				<label for="contact_prenom" class="label">Prénom : </label>
+				<input type="text" id="contact_prenom" placeholder="Votre prénom" class="textInput">
+				<br>
+				<label for="contact_email" class="label">Email : </label>
+				<input type="email" id="contact_email" placeholder="Votre email" class="textInput">
+				<br>
+				<label for="contact_message" class="label">Votre message : </label>
+				<textarea id="contact_message" placeholder="Votre message"></textarea>
+				<br>
+				<label for="contact_subscribe" id="label">Inscription newsletter : </label>
+				<input type="checkbox" id="contact_subscribe">
+				<br>
+				<div class="right">
+					<input type="submit" value= "Clique si t'es un homme">
+				</div>
+			</form>
+		</main>
+		
+	</div>
+	<footer class="footer">
+		<p>Monsite2018</p>
+	</footer>
+	<script type="text/javascript" src="script.js"></script>
+</body>
+</html>
