@@ -3,40 +3,31 @@ const addTask = document.getElementById('addTask');
 const taskList = document.querySelector('.tasksList');
 const addTaskCategory = document.getElementById('addTaskCategory');
 
-const filterAll = document.querySelector('.filterAll');
 const filters = document.querySelector('.filters');
 
 filters.childNodes.forEach(function(item) {
     if (item.nodeType === 1) {
-
         let link = item.querySelector('.filter');
         link.addEventListener('click', function (event) {
             event.preventDefault();
             event.stopPropagation();
 
             taskList.childNodes.forEach(function (task) {
+                let filter = link.getAttribute('data-filter');
                 if (task.nodeType === 1) {
-                    if (task.classList.contains(link.getAttribute('data-filter'))) {
+                    if (filter === 'All') {
                         task.classList.remove('hiddenTask');
                     } else {
-                        task.classList.add('hiddenTask');
+                        if (task.classList.contains(filter)) {
+                            task.classList.remove('hiddenTask');
+                        } else {
+                            task.classList.add('hiddenTask');
+                        }
                     }
                 }
             });
         })
     }
-    filterAll.addEventListener('click',
-        function (event) {
-            event.preventDefault();
-            event.stopPropagation();
-
-            taskList.childNodes.forEach(function (task) {
-                if (task.nodeType === 1) {
-                    task.classList.remove('hiddenTask');
-                }
-            });
-        }
-    );
 });
 
 
