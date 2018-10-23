@@ -1,3 +1,9 @@
+const addTaskForm = document.getElementById('addTaskForm');
+const addTaskText = document.getElementById('addTask');
+const addTaskCategory = document.getElementById('addTaskCategory');
+const tasksList = document.querySelector('.tasksList');
+const filters = document.querySelector('.filters');
+
 function getTasks() {
     return JSON.parse(localStorage.getItem('tasks')) || {};
 }
@@ -42,6 +48,8 @@ function updateTask(key, taskText, taskCategory, taskCompleted) {
 function addTaskElement(key, task) {
     let li = document.createElement('li');
     li.classList.add('task');
+    li.classList.add(task.category);
+    li.setAttribute('data-key', key);
     let p = document.createElement('p');
     p.classList.add('taskText');
     p.innerHTML = task.text;
@@ -52,7 +60,7 @@ function addTaskElement(key, task) {
     deleteBtn.innerHTML = 'Supprimer';
     let updateBtn = document.createElement('button');
     updateBtn.classList.add('updateTaskBtn');
-    deleteBtn.innerHTML('Modifier');
+    updateBtn.innerHTML = 'Modifier';
     let completeBtn = document.createElement('button');
     completeBtn.classList.add('completeTaskBtn');
     completeBtn.innerHTML = 'Terminer';
@@ -62,13 +70,57 @@ function addTaskElement(key, task) {
     div.appendChild(completeBtn);
     li.appendChild(p);
     li.appendChild(div);
+
+    tasksList.appendChild(li);
 }
 
+addTaskForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    let taskText = addTaskText.value;
+    let taskCategory = addTaskCategory.value;
+
+    let key = addTask(taskText, taskCategory, false);
+    let task = getTask(key);
+
+    addTaskText.value = "";
+
+    addTaskElement(key, task);
+});
+
+
+filters.childNodes.forEach(function(item) {
+    if (item.nodeType === 1) {
+        let link = item.querySelector('.filter');
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            tasksList.childNodes.forEach(function (task) {
+                let filter = link.getAttribute('data-filter');
+                if (task.nodeType === 1) {
+                    if (filter === 'All') {
+                        task.classList.remove('hiddenTask');
+                    } else {
+                        if (task.classList.contains(filter)) {
+                            task.classList.remove('hiddenTask');
+                        } else {
+                            task.classList.add('hiddenTask');
+                        }
+                    }
+                }
+            });
+        })
+    }
+});
+
 localStorage.clear();
-let key1 = addTask('hello', 'css', true);
+/*let key1 = addTask('hello', 'css', true);
 let key2 = addTask('tache2', 'css', true);
 console.log(getTask(key1));
 deleteTask(key1);
 console.log(getTasks());
 updateTask(key2, 'yay', 'JS', false);
-console.log(getTasks());
+console.log(getTasks());*/
+
