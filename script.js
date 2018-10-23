@@ -4,110 +4,40 @@ const taskList = document.querySelector('.tasksList');
 const addTaskCategory = document.getElementById('addTaskCategory');
 
 const filterAll = document.querySelector('.filterAll');
-const filterCSS = document.querySelector('.filterCSS');
-const filterHTML = document.querySelector('.filterHTML');
-const filterJavaScript = document.querySelector('.filterJavaScript');
-const filterPHP = document.querySelector('.filterPHP');
-const filterJava = document.querySelector('.filterJava');
+const filters = document.querySelector('.filters');
 
-filterCSS.addEventListener('click',
-    function (event) {
-        event.preventDefault();
-        event.stopPropagation();
+filters.childNodes.forEach(function(item) {
+    if (item.nodeType === 1) {
 
-        taskList.childNodes.forEach(function (task) {
-            if (task.nodeType === 1) {
-                if (task.classList.contains('CSS')) {
-                    task.classList.remove('hiddenTask');
-                } else {
-                    task.classList.add('hiddenTask');
+        let link = item.querySelector('.filter');
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            taskList.childNodes.forEach(function (task) {
+                if (task.nodeType === 1) {
+                    if (task.classList.contains(link.getAttribute('data-filter'))) {
+                        task.classList.remove('hiddenTask');
+                    } else {
+                        task.classList.add('hiddenTask');
+                    }
                 }
-            }
-        });
+            });
+        })
     }
-);
+    filterAll.addEventListener('click',
+        function (event) {
+            event.preventDefault();
+            event.stopPropagation();
 
-filterHTML.addEventListener('click',
-    function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        taskList.childNodes.forEach(function (task) {
-            if (task.nodeType === 1) {
-                if (task.classList.contains('HTML')) {
+            taskList.childNodes.forEach(function (task) {
+                if (task.nodeType === 1) {
                     task.classList.remove('hiddenTask');
-                } else {
-                    task.classList.add('hiddenTask');
                 }
-            }
-        });
-    }
-);
-
-filterJavaScript.addEventListener('click',
-    function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        taskList.childNodes.forEach(function (task) {
-            if (task.nodeType === 1) {
-                if (task.classList.contains('JavaScript')) {
-                    task.classList.remove('hiddenTask');
-                } else {
-                    task.classList.add('hiddenTask');
-                }
-            }
-
-        });
-    }
-);
-
-filterPHP.addEventListener('click',
-    function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        taskList.childNodes.forEach(function (task) {
-            if (task.nodeType === 1) {
-                if (task.classList.contains('PHP')) {
-                    task.classList.remove('hiddenTask');
-                } else {
-                    task.classList.add('hiddenTask');
-                }
-            }
-        });
-    }
-);
-
-filterJava.addEventListener('click',
-    function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        taskList.childNodes.forEach(function (task) {
-            if (task.nodeType === 1) {
-                if (task.classList.contains('Java')) {
-                    task.classList.remove('hiddenTask');
-                } else {
-                    task.classList.add('hiddenTask');
-                }
-            }
-        });
-    }
-);
-
-filterAll.addEventListener('click',
-    function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        taskList.childNodes.forEach(function (task) {
-            if (task.nodeType === 1) {
-                task.classList.remove('hiddenTask');
-            }
-        });
-    }
-);
+            });
+        }
+    );
+});
 
 
 addTaskForm.addEventListener('submit',
@@ -129,9 +59,9 @@ addTaskForm.addEventListener('submit',
 
         let completeTaskBtn = document.createElement('button');
         completeTaskBtn.classList.add('completeTaskBtn');
-        completeTaskBtn.innerHTML = 'complete';
+        completeTaskBtn.innerHTML = 'Terminer';
         completeTaskBtn.addEventListener('click',
-            function (event) {
+            function () {
                 let task = completeTaskBtn.parentElement.parentElement;
                 if (task.classList.contains('taskCompleted')) {
                     task.classList.remove('taskCompleted');
@@ -146,7 +76,7 @@ addTaskForm.addEventListener('submit',
         updateTaskBtn.classList.add('updateTaskBtn');
         updateTaskBtn.innerHTML = 'Modifier';
         updateTaskBtn.addEventListener('click',
-            function (event) {
+            function () {
                 let taskText = updateTaskBtn.parentElement.previousElementSibling;
                 taskText.innerHTML = prompt('Texte de la tache', taskText.innerHTML);
             }
@@ -154,9 +84,9 @@ addTaskForm.addEventListener('submit',
 
         let deleteTaskBtn = document.createElement('button');
         deleteTaskBtn.classList.add('deleteTaskBtn');
-        deleteTaskBtn.innerHTML = 'supprimer';
+        deleteTaskBtn.innerHTML = 'Supprimer';
         deleteTaskBtn.addEventListener('click',
-            function (event) {
+            function () {
                 let task = deleteTaskBtn.parentElement.parentElement;
                 taskList.removeChild(task);
             }
