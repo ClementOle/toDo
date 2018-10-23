@@ -9,7 +9,7 @@ function setTasks(tasks) {
 function addTask(taskText, taskCategory, taskCompleted) {
     let tasks = getTasks();
     let key = Math.random().toString();
-    tasks[key]({
+    tasks[key] = ({
         text: taskText,
         category: taskCategory,
         completed: taskCompleted
@@ -28,3 +28,6 @@ function deleteTask(key) {
     delete tasks[key];
     setTasks(tasks);
 }
+
+localStorage.clear();
+addTask();
