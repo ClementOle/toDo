@@ -1,0 +1,66 @@
+<!DOCTYPE html> 
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<title>To Do</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1, user-scalable=no,shrink-to-fit=no, viewport-fit=cover">	
+	<link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+	<nav class="navigation">
+		<label class="menuBtn" for="showMenu">
+			<img src="imgs/menu.svg" alt="menu" class="menuBtnImg">
+		</label>
+		<input type="checkbox" id="showMenu">
+		<ul class="menu">
+			<li><a href="index.html" class="menulink">Accueil</a></li>	
+			<li><a href="contact.html" class="menulink">Contact</a></li>
+		</ul>
+	</nav>
+	<header class="header">
+		<h1 class="titre ">Accueil</h1>
+	</header>
+	<div class="content">
+		<main class="main">
+			<form action="" method="post" id="addTaskForm">
+				<label for="addTask">Ajouter une tâche</label>
+				<input type="text" id="addTask">
+				<label for="addTaskCategory">Catégorie</label>
+				<select id="addTaskCategory">
+					<option value = "CSS">CSS</option>
+					<option value = "HTML">HTML</option>
+					<option value = "JavaScript">JavaScript</option>
+					<option value = "PHP">PHP</option>
+					<option value = "Java">Java</option>
+				</select>
+				<input type="submit">
+			</form>
+			<ul class="tasksList">
+				<!--<li class="task">
+					<p id="taskTest">...</p>
+					<div class="taskButtons">
+						<button class="completeTaskBtn">Terminer</button>						
+						<button class="updateTaskBtn">Modifier</button>						
+						<button class="deleteTaskBtn">Supprimer</button>
+					</div>
+				</li>-->
+			</ul>
+		</main>
+		<aside class="aside">
+			<h2>Catégorie</h2>
+			<ul>
+				<li><a href="index.html" class="filterAll All">Toutes</a></li>
+				<li><a href="index.html" class="filterCSS CSS">CSS</a></li>
+				<li><a href="index.html" class="filterHTML HTML">HTML</a></li>
+				<li><a href="index.html" class="filterJavaScript JavaScript">JavaScript</a></li>
+				<li><a href="index.html" class="filterPHP PHP">PHP</a></li>
+				<li><a href="index.html" class="filterJava Java">Java</a></li>
+			</ul>
+		</aside>
+	</div>S
+	<footer class="footer">
+		<p>Monsite2018</p>
+	</footer>
+	<script type="text/javascript" src="script.js"></script>
+</body>
+</html>
