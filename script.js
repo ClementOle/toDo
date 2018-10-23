@@ -1,93 +1,30 @@
-const addTaskForm = document.getElementById('addTaskForm');
-const addTask = document.getElementById('addTask');
-const taskList = document.querySelector('.tasksList');
-const addTaskCategory = document.getElementById('addTaskCategory');
+function getTasks() {
+    return JSON.parse(localStorage.getItem('tasks')) || {};
+}
 
-const filters = document.querySelector('.filters');
+function setTasks(tasks) {
+    localStorage.setItem('tasks', JSON.stringify({}));
+}
 
-filters.childNodes.forEach(function(item) {
-    if (item.nodeType === 1) {
-        let link = item.querySelector('.filter');
-        link.addEventListener('click', function (event) {
-            event.preventDefault();
-            event.stopPropagation();
+function addTask(taskText, taskCategory, taskCompleted) {
+    let tasks = getTasks();
+    let key = Math.random().toString();
+    tasks[key]({
+        text: taskText,
+        category: taskCategory,
+        completed: taskCompleted
+    });
+    setTasks(tasks);
+    return key;
+}
 
-            taskList.childNodes.forEach(function (task) {
-                let filter = link.getAttribute('data-filter');
-                if (task.nodeType === 1) {
-                    if (filter === 'All') {
-                        task.classList.remove('hiddenTask');
-                    } else {
-                        if (task.classList.contains(filter)) {
-                            task.classList.remove('hiddenTask');
-                        } else {
-                            task.classList.add('hiddenTask');
-                        }
-                    }
-                }
-            });
-        })
-    }
-});
+function getTask(key) {
+    let tasks = getTasks();
+    return tasks[key];
+}
 
-
-addTaskForm.addEventListener('submit',
-    function (event) {
-        event.preventDefault();
-        event.stopPropagation();
-
-        let task = document.createElement('li');
-        task.classList.add('task');
-        task.classList.add(addTaskCategory.value);
-
-        let taskText = document.createElement('p');
-        taskText.classList.add('taskText');
-        taskText.innerHTML = addTask.value;
-        addTask.value = "";
-
-        let taskButtons = document.createElement('div');
-        taskButtons.classList.add('taskButtons');
-
-        let completeTaskBtn = document.createElement('button');
-        completeTaskBtn.classList.add('completeTaskBtn');
-        completeTaskBtn.innerHTML = 'Terminer';
-        completeTaskBtn.addEventListener('click',
-            function () {
-                let task = completeTaskBtn.parentElement.parentElement;
-                if (task.classList.contains('taskCompleted')) {
-                    task.classList.remove('taskCompleted');
-                } else {
-                    task.classList.add('taskCompleted');
-                }
-            }
-        );
-
-
-        let updateTaskBtn = document.createElement('button');
-        updateTaskBtn.classList.add('updateTaskBtn');
-        updateTaskBtn.innerHTML = 'Modifier';
-        updateTaskBtn.addEventListener('click',
-            function () {
-                let taskText = updateTaskBtn.parentElement.previousElementSibling;
-                taskText.innerHTML = prompt('Texte de la tache', taskText.innerHTML);
-            }
-        );
-
-        let deleteTaskBtn = document.createElement('button');
-        deleteTaskBtn.classList.add('deleteTaskBtn');
-        deleteTaskBtn.innerHTML = 'Supprimer';
-        deleteTaskBtn.addEventListener('click',
-            function () {
-                let task = deleteTaskBtn.parentElement.parentElement;
-                taskList.removeChild(task);
-            }
-        );
-
-        taskButtons.appendChild(completeTaskBtn);
-        taskButtons.appendChild(updateTaskBtn);
-        taskButtons.appendChild(deleteTaskBtn);
-        task.appendChild(taskText);
-        task.appendChild(taskButtons);
-        taskList.appendChild(task);
-    }
-);
+function deleteTask(key) {
+    let tasks = getTasks();
+    delete tasks[key];
+    setTasks(tasks);
+}
