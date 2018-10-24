@@ -3,6 +3,7 @@ const addTaskText = document.getElementById('addTask');
 const addTaskCategory = document.getElementById('addTaskCategory');
 const tasksList = document.querySelector('.tasksList');
 const filters = document.querySelector('.filters');
+const delAll = document.querySelector('.clearAllTasksBtn');
 
 function getTasks() {
     return JSON.parse(localStorage.getItem('tasks')) || {};
@@ -48,11 +49,7 @@ function updateTask(key, taskText, taskCategory, taskCompleted) {
 function completeTask(key) {
     let tasks = getTasks();
     let task = getTask(key);
-    if (task.completed) {
-        task.completed = false;
-    } else {
-        task.completed = true;
-    }
+    task.completed = !task.completed;
     tasks[key] = task;
     setTasks(tasks);
 }
@@ -62,6 +59,9 @@ function addTaskElement(key, task) {
     li.classList.add('task');
     li.classList.add(task.category);
     li.setAttribute('data-key', key);
+    if (task.completed) {
+        li.classList.add('taskCompleted');
+    }
 
     let p = document.createElement('p');
     p.classList.add('taskText');
@@ -90,7 +90,7 @@ function addTaskElement(key, task) {
 
     tasksList.appendChild(li);
 
-    completeBtn.addEventListener('click', function(event) {
+    completeBtn.addEventListener('click', function() {
         let li = completeBtn.parentElement.parentElement;
         let key = li.getAttribute('data-key');
 
@@ -99,21 +99,21 @@ function addTaskElement(key, task) {
         let task = getTask(key);
 
         if (task.completed) {
-            li.classList.remove('taskCompleted');
-        } else {
             li.classList.add('taskCompleted');
+        } else {
+            li.classList.remove('taskCompleted');
         }
 
     });
 
-    deleteBtn.addEventListener('click', function(event) {
+    deleteBtn.addEventListener('click', function() {
         let li = deleteBtn.parentElement.parentElement;
         let key = li.getAttribute('data-key');
         deleteTask(key);
         tasksList.removeChild(li);
     });
 
-    updateBtn.addEventListener('click', function(event) {
+    updateBtn.addEventListener('click', function() {
         let li = updateBtn.parentElement.parentElement;
         let key = li.getAttribute('data-key');
         let task = getTask(key);
@@ -121,6 +121,11 @@ function addTaskElement(key, task) {
         let text = prompt('Texte de la tache', taskText.innerHTML);
         updateTask(key, text, task.category, task.completed);
         taskText.innerHTML = text;
+    });
+
+    delAll.addEventListener('click', function(){
+        tasksList.innerHTML = "";
+        setTasks({});
     });
 }
 
@@ -167,9 +172,12 @@ filters.childNodes.forEach(function(item) {
     }
 });
 
+let tasks = getTasks();
 
-
-localStorage.clear();
+for (let key in tasks){
+    let task = getTask(key);
+    addTaskElement(key, task);
+}
 /*let key1 = addTask('hello', 'css', true);
 let key2 = addTask('tache2', 'css', true);
 console.log(getTask(key1));
